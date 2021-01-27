@@ -9,13 +9,6 @@ use App\Models\Language;
 
 class LanguageController extends Controller
 {
-    // protected Language $language;
-
-    // public function __construct(Language $language)
-    // {
-    //     $this->language = $language;
-    // }
-
     public function index(): LanguageCollection
     {
         return new LanguageCollection(Language::paginate());

@@ -13,3 +13,4 @@ Auth::routes([
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('/languages', App\Http\Controllers\LanguageController::class);
+Route::resource('/languages-ajax', App\Http\Controllers\LanguageController::class);

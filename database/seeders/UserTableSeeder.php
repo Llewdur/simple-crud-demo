@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserTableSeeder extends Seeder
 {
@@ -15,7 +16,7 @@ class UserTableSeeder extends Seeder
                 'email' => User::TESTS_EMAIL,
                 'mobile' => User::TESTS_MOBILE,
                 'name' => User::TESTS_NAME,
-                'password' => User::TESTS_PASSWORD,
+                'password' => Hash::make(User::TESTS_PASSWORD),
                 'surname' => User::TESTS_SURNAME,
             ]);
     }

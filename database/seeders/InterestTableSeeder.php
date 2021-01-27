@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Interest;
-use App\Models\Language;
 use Illuminate\Database\Seeder;
 
 class InterestTableSeeder extends Seeder

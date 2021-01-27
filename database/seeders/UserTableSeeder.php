@@ -10,13 +10,13 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         User::factory()
-        ->hasUserInterests(1)
-        ->create([
-            'email' => User::TESTS_EMAIL,
-            'mobile' => User::TESTS_MOBILE,
-            'name' => User::TESTS_NAME,
-            'password' => User::TESTS_PASSWORD,
-            'surname' => User::TESTS_SURNAME,
-        ]);
+            ->hasUserInterests(1)
+            ->create([
+                'email' => User::TESTS_EMAIL,
+                'mobile' => User::TESTS_MOBILE,
+                'name' => User::TESTS_NAME,
+                'password' => User::TESTS_PASSWORD,
+                'surname' => User::TESTS_SURNAME,
+            ]);
     }
 }

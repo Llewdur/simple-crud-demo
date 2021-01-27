@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Language;
 use App\Http\Requests\LanguageRequest;
-use App\Http\Resources\LanguageResource;
 use App\Http\Resources\LanguageCollection;
+use App\Http\Resources\LanguageResource;
+use App\Models\Language;
 
 class LanguageController extends Controller
 {
@@ -16,7 +16,7 @@ class LanguageController extends Controller
     //     $this->language = $language;
     // }
 
-    public function index():LanguageCollection
+    public function index(): LanguageCollection
     {
         return new LanguageCollection(Language::paginate());
     }

@@ -4,72 +4,59 @@ namespace App\Http\Controllers;
 
 use App\Models\Language;
 use Illuminate\Http\Request;
+use App\Http\Requests\LanguageRequest;
+use App\Http\Resources\LanguageResource;
+use App\Http\Resources\LanguageCollection;
 
 class LanguageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    // protected Language $language;
+
+    // public function __construct(Language $language)
+    // {
+    //     $this->language = $language;
+    // }
+
+    public function index():LanguageCollection
     {
+        return new LanguageCollection(Language::paginate());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function store(LanguageRequest $request)
+    public function store(LanguageRequest $request): LanguageResource
     {
         $language = Language::create($request->all());
 
         return new LanguageResource($language);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Language $language)
+    public function show(int $id): LanguageResource
     {
+        $language = Language::findOrFail($id);
+
+        return new LanguageResource($language);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Language $language)
     {
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Language $language)
+    public function update(LanguageRequest $request, int $id)
     {
+        $language = Language::findOrFail($id);
+        $language->update($request->all());
+
+        return new LanguageResource($language);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Language $language)
+    public function destroy(int $id)
     {
+        $language = Language::findOrFail($id);
+        $language->forceDelete();
+
+        return response()->json([], 204);
     }
 }

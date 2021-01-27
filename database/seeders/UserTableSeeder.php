@@ -10,9 +10,7 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         User::factory()
-        // ->hasUserInterests(1, [
-        //     'name' => 'some interest'
-        // ])
+        ->hasUserInterests(1)
         ->create([
             'email' => User::TESTS_EMAIL,
             'mobile' => User::TESTS_MOBILE,

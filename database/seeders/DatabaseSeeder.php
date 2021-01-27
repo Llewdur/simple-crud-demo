@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
             LanguageTableSeeder::class,
             InterestTableSeeder::class,
             UserTableSeeder::class,
-            UserInterestTableSeeder::class,
+            // UserInterestTableSeeder::class,
         ]);
     }
 }

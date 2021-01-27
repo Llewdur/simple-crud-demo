@@ -43,6 +43,6 @@ class User extends Authenticatable
 
     public function userInterests()
     {
-        return $this->hasManyThrough(Interest::class, UserInterest::class);
+        return $this->hasMany(UserInterest::class);
     }
 }

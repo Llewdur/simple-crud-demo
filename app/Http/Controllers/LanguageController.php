@@ -6,6 +6,7 @@ use App\Http\Requests\LanguageRequest;
 use App\Http\Resources\LanguageCollection;
 use App\Http\Resources\LanguageResource;
 use App\Models\Language;
+use Illuminate\Http\JsonResponse;
 
 class LanguageController extends Controller
 {
@@ -36,7 +37,7 @@ class LanguageController extends Controller
     {
     }
 
-    public function update(LanguageRequest $request, int $id)
+    public function update(LanguageRequest $request, int $id): LanguageResource
     {
         $language = Language::findOrFail($id);
         $language->update($request->all());
@@ -44,11 +45,11 @@ class LanguageController extends Controller
         return new LanguageResource($language);
     }
 
-    public function destroy(int $id)
+    public function destroy(int $id): JsonResponse
     {
         $language = Language::findOrFail($id);
         $language->forceDelete();
 
-        return response()->json([], 204);
+        return response()->json([]);
     }
 }

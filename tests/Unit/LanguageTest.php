@@ -2,8 +2,6 @@
 
 namespace Tests\Unit;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use App\Models\Language;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -11,7 +9,6 @@ use Tests\TestCase;
 
 class LanguageTest extends TestCase
 {
-    // use RefreshDatabase;
     use WithoutMiddleware;
     use WithFaker;
 
@@ -23,7 +20,8 @@ class LanguageTest extends TestCase
 
         Language::factory()->create($dataArray);
 
-        $this->get($this->table)->assertSuccessful()
+        $this->get($this->table)
+            ->assertSuccessful()
             ->assertJsonStructure([
                 'data' => [
                     '*' => Language::RESPONSE_ARRAY,
@@ -47,7 +45,8 @@ class LanguageTest extends TestCase
 
         Language::factory()->create($dataArray);
 
-        $this->get("{$this->table}/1")->assertSuccessful()
+        $this->get("{$this->table}/1")
+            ->assertSuccessful()
             ->assertJsonStructure([
                 'data' => Language::RESPONSE_ARRAY,
             ]);

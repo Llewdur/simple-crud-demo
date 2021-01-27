@@ -12,7 +12,7 @@ class CreateLanguagesTable extends Migration
     public function up()
     {
         Schema::create('languages', function (Blueprint $table) {
-            $table->id();
+            $table->tinyInteger('id')->autoIncrement()->unsigned();
             $table->string('name')->unique();
             $table->string('code')->unique();
 

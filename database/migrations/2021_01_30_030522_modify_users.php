@@ -16,7 +16,7 @@ class ModifyUsers extends Migration
             $table->string('idnumber')->unique()->after('surname');
             $table->string('mobile')->after('idnumber');
             $table->date('dob')->after('mobile');
-            $table->integer('language_id')->after('dob');
+            $table->tinyInteger('language_id')->after('dob')->unsigned();
 
             $table->foreign('language_id')->references('id')->on('languages');
         });

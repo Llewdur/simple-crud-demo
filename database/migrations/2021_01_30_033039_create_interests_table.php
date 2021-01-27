@@ -12,7 +12,7 @@ class CreateInterestsTable extends Migration
     public function up()
     {
         Schema::create('interests', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id')->autoIncrement()->unsigned();
             $table->string('name')->unique();
             $table->timestamps();
         });

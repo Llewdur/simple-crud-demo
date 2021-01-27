@@ -21,32 +21,17 @@ class User extends Authenticatable
 
     public const TESTS_MOBILE = '083 445 2207';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -56,8 +41,8 @@ class User extends Authenticatable
         return $this->belongsTo(Language::class);
     }
 
-    public function user_interest()
+    public function userInterests()
     {
-        return $this->hasMany(UserInterest::class);
+        return $this->hasManyThrough(Interest::class, UserInterest::class);
     }
 }

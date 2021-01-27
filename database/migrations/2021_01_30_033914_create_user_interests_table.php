@@ -13,8 +13,8 @@ class CreateUserInterestsTable extends Migration
     {
         Schema::create('user_interests', function (Blueprint $table) {
             $table->id();
-            $table->integer('interest_id');
-            $table->integer('user_id');
+            $table->integer('interest_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
 
             $table->timestamps();
 

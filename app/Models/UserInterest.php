@@ -9,6 +9,11 @@ class UserInterest extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'interest_id',
+        'user_id',
+    ];
+
     public function interest()
     {
         return $this->belongsTo(Interest::class);

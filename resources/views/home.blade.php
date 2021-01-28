@@ -15,6 +15,8 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    <br>
+                    <a href='{!! url('/languages-ajax'); !!}'>Languages</a>
                 </div>
             </div>
         </div>

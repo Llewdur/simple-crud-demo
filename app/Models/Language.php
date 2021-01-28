@@ -15,10 +15,10 @@ class Language extends Model
         'name',
     ];
 
-    public static array $rules = [
-        'code' => 'required|string|min:1|max:10|unique:languages',
-        'name' => 'required|string|min:3|max:255|unique:languages',
-    ];
+    // public static array $rules = [
+    //     'code' => 'required|string|min:1|max:10|unique:languages,id,:id',
+    //     'name' => 'required|string|min:3|max:255|unique:languages,id,:id',
+    // ];
 
     protected $fillable = [
         'code',

@@ -27,6 +27,7 @@ $(function () {
         var id = $(this).data('id');
 
         $.get('languages-ajax/' + id + '/edit', function (data) {
+            $('#errorMessages').hide();
             $('#id').val(data.id);
             $('#editCode').val(data.code);
             $('#editName').val(data.name);
@@ -68,8 +69,16 @@ $(function () {
                 $('#editModal').modal('hide');
                 table.draw();
             },
-            error: function (data) {
-                console.log('Error:', data);
+            error: function (xhr, errorType, exception) {
+                $('#errorMessages').show();
+                $('#errorMessages').html('');
+
+                var data = xhr.responseText;
+                var jsonResponse = JSON.parse(data);
+
+                Object.values(jsonResponse["errors"]).forEach(val => {
+                    $('#errorMessages').append(val + '<br/>');
+                });
             }
         });
     });

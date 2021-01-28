@@ -8,6 +8,7 @@
             <div class="modal-body">
                 <form id="editForm" method="POST" name="editForm" class="form-horizontal">
                    <input type="hidden" name="id" id="id">
+                   <div id="errorMessages" class="errorMessages btn btn-danger"></div>
                    <div class="form-group">
                         <label class="col-sm-2 control-label">Code</label>
                         <div class="col-sm-12">

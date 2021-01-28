@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Language;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LanguageRequest extends FormRequest
@@ -14,6 +13,9 @@ class LanguageRequest extends FormRequest
 
     public function rules(): array
     {
-        return Language::$rules;
+        return [
+            'code' => 'required|string|min:1|max:10|unique:languages,code,' . $this->id,
+            'name' => 'required|string|min:3|max:255|unique:languages,name,' . $this->id,
+        ];
     }
 }

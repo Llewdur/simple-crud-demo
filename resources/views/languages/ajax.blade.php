@@ -40,7 +40,7 @@
                 <form id="addForm" name="addForm" class="form-horizontal">
                     <!-- @csrf -->
                     @method('POST')
-                   <div class="form-group">
+                    <div class="form-group">
                         <label class="col-sm-2 control-label">Code</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="code" name="code" placeholder="Enter Code" value="" maxlength="10" required="required">
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary" id="addButton" value="create">Add</button>
+                        <button type="submit" class="btn btn-primary" id="addButton">Add</button>
                     </div>
                 </form>
             </div>
@@ -68,7 +68,7 @@
                 <h4 class="modal-title">Edit</h4>
             </div>
             <div class="modal-body">
-                <form id="editForm" name="editForm" class="form-horizontal">
+                <form id="editForm" method="POST" name="editForm" class="form-horizontal">
                     <!-- @csrf -->
                     @method('PATCH')
                    <input type="hidden" name="id" id="id">
@@ -108,7 +108,7 @@ $(function () {
     var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('languages.index') }}",
+        ajax: "languages-ajax/",
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'code', name: 'code'},
@@ -140,7 +140,7 @@ $(function () {
 
         $.ajax({
             data: $('#addForm').serialize(),
-            url: $('#url').val(),
+            url: 'languages-ajax/',
             type: "POST",
             dataType: 'json',
             success: function (data) {
@@ -150,7 +150,6 @@ $(function () {
             },
             error: function (data) {
                 console.log('Error:', data);
-                // $('#saveBtn').html('Save Changes');
             }
         });
     });
@@ -161,6 +160,7 @@ $(function () {
 
         $.ajax({
             data: $('#editForm').serialize(),
+            url: 'languages-ajax/' + $('#id').val(),
             type: "PATCH",
             dataType: 'json',
             success: function (data) {
@@ -170,7 +170,6 @@ $(function () {
             },
             error: function (data) {
                 console.log('Error:', data);
-                // $('#saveBtn').html('Save Changes');
             }
         });
     });

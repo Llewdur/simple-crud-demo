@@ -12,86 +12,10 @@
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 </head>
 <body>
-    
-<div class="container">
-    <a class="btn btn-success" href="javascript:void(0)" id="add"> Add New Language</a>
-    <br>
-    <table class="table table-bordered data-table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Code</th>
-                <th>Name</th>
-                <th width="280px">Action</th>
-            </tr>
-        </thead>
-    <tbody>
-    </tbody>
-    </table>
-</div>
 
-<div class="modal fade" id="addModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="modelHeading"></h4>
-            </div>
-            <div class="modal-body">
-                <form id="addForm" name="addForm" class="form-horizontal">
-                    <!-- @csrf -->
-                    @method('POST')
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Code</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control" id="code" name="code" placeholder="Enter Code" value="" maxlength="10" required="required">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label">Name</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="" maxlength="50" required="required">
-                        </div>
-                    </div>
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary" id="addButton">Add</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div> 
-
-<div class="modal fade" id="editModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Edit</h4>
-            </div>
-            <div class="modal-body">
-                <form id="editForm" method="POST" name="editForm" class="form-horizontal">
-                    <!-- @csrf -->
-                    @method('PATCH')
-                   <input type="hidden" name="id" id="id">
-                   <div class="form-group">
-                        <label class="col-sm-2 control-label">Code</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control" id="editCode" name="code" placeholder="Enter Code" value="" maxlength="10" required="required">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label">Name</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control" id="editName" name="name" placeholder="Enter Name" value="" maxlength="50" required="required">
-                        </div>
-                    </div>
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary" id="editButton">Edit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div> 
+@include('languages/includes/dataTable')
+@include('languages/includes/addModal')
+@include('languages/includes/editModal')
 
 </body>
 

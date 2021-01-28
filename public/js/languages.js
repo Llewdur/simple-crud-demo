@@ -8,7 +8,7 @@ $(function () {
     var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('languages.index') }}",
+        ajax: "languages-ajax/",
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'code', name: 'code'},
@@ -40,7 +40,7 @@ $(function () {
 
         $.ajax({
             data: $('#addForm').serialize(),
-            url: $('#url').val(),
+            url: 'languages-ajax/',
             type: "POST",
             dataType: 'json',
             success: function (data) {
@@ -50,7 +50,6 @@ $(function () {
             },
             error: function (data) {
                 console.log('Error:', data);
-                // $('#saveBtn').html('Save Changes');
             }
         });
     });
@@ -61,6 +60,7 @@ $(function () {
 
         $.ajax({
             data: $('#editForm').serialize(),
+            url: 'languages-ajax/' + $('#id').val(),
             type: "PATCH",
             dataType: 'json',
             success: function (data) {
@@ -70,7 +70,6 @@ $(function () {
             },
             error: function (data) {
                 console.log('Error:', data);
-                // $('#saveBtn').html('Save Changes');
             }
         });
     });

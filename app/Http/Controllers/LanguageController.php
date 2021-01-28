@@ -21,7 +21,7 @@ class LanguageController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editProduct">Edit</a>';
+                $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm edit">Edit</a>';
                 $btn .= ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger btn-sm delete">Delete</a>';
                 return $btn;
             })
@@ -52,8 +52,10 @@ class LanguageController extends Controller
         return new LanguageResource($language);
     }
 
-    public function edit(Language $language)
+    public function edit(int $id)
     {
+        $language = Language::findOrFail($id);
+        return response()->json($language);        
     }
 
     public function update(LanguageRequest $request, int $id): LanguageResource
@@ -69,6 +71,6 @@ class LanguageController extends Controller
         $language = Language::findOrFail($id);
         $language->forceDelete();
 
-        return response()->json([]);
+        return response()->json([], 204);
     }
 }

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Laravel 6 Ajax CRUD tutorial using Datatable - ItSolutionStuff.com</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
     <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -15,51 +14,85 @@
 <body>
     
 <div class="container">
-    <a class="btn btn-success" href="javascript:void(0)" id="createNewProduct"> Create New Language</a>
+    <a class="btn btn-success" href="javascript:void(0)" id="add"> Add New Language</a>
+    <br>
     <table class="table table-bordered data-table">
         <thead>
-           <tr>
-               <th>#</th>
-               <th>Code</th>
-               <th>Name</th>
-               <th width="280px">Action</th>
-           </tr>
-       </thead>
-        <tbody>
-        </tbody>
+            <tr>
+                <th>#</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th width="280px">Action</th>
+            </tr>
+        </thead>
+    <tbody>
+    </tbody>
     </table>
 </div>
-   
-<div class="modal fade" id="ajaxModel" aria-hidden="true">
+
+<div class="modal fade" id="addModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modelHeading"></h4>
             </div>
             <div class="modal-body">
-                <form id="productForm" name="productForm" class="form-horizontal">
-                   <input type="hidden" name="product_id" id="product_id">
+                <form id="addForm" name="addForm" class="form-horizontal">
+                    <!-- @csrf -->
+                    @method('POST')
+                   <div class="form-group">
+                        <label class="col-sm-2 control-label">Code</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" id="code" name="code" placeholder="Enter Code" value="" maxlength="10" required="required">
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">Name</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="" maxlength="50" required="">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Name</label>
-                        <div class="col-sm-12">
-                            <textarea id="detail" name="detail" required="" placeholder="Enter Details" class="form-control"></textarea>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="" maxlength="50" required="required">
                         </div>
                     </div>
                     <div class="col-sm-offset-2 col-sm-10">
-                     <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save changes
-                     </button>
+                        <button type="submit" class="btn btn-primary" id="addButton" value="create">Add</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div> 
+
+<div class="modal fade" id="editModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit</h4>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" name="editForm" class="form-horizontal">
+                    <!-- @csrf -->
+                    @method('PATCH')
+                   <input type="hidden" name="id" id="id">
+                   <div class="form-group">
+                        <label class="col-sm-2 control-label">Code</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" id="editCode" name="code" placeholder="Enter Code" value="" maxlength="10" required="required">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" id="editName" name="name" placeholder="Enter Name" value="" maxlength="50" required="required">
+                        </div>
+                    </div>
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary" id="editButton">Edit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> 
+
 </body>
 
 <!-- <script type="text/javascript" src="http://0.0.0.0/js/languages.js"></script> -->
@@ -70,78 +103,93 @@ $(function () {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-  });
-
-  var table = $('.data-table').DataTable({
-      processing: true,
-      serverSide: true,
-      ajax: "{{ route('languages.index') }}",
-      columns: [
-          {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-          {data: 'code', name: 'code'},
-          {data: 'name', name: 'name'},
-          {data: 'action', name: 'action', orderable: false, searchable: false},
-      ]
-  });
-  
-  $('#createNewProduct').click(function () {
-      $('#saveBtn').val("create-product");
-      $('#product_id').val('');
-      $('#productForm').trigger("reset");
-      $('#modelHeading').html("Create New Product");
-      $('#ajaxModel').modal('show');
-  });
- 
-  $('body').on('click', '.editProduct', function () {
-    var product_id = $(this).data('id');
-    $.get("{{ route('languages.index') }}" +'/' + product_id +'/edit', function (data) {
-        $('#modelHeading').html("Edit Product");
-        $('#saveBtn').val("edit-user");
-        $('#ajaxModel').modal('show');
-        $('#product_id').val(data.id);
-        $('#name').val(data.name);
-        $('#detail').val(data.detail);
-    })
- });
-  
-  $('#saveBtn').click(function (e) {
-      e.preventDefault();
-      $(this).html('Sending..');
-  
-      $.ajax({
-        data: $('#productForm').serialize(),
-        url: "{{ route('languages.store') }}",
-        type: "POST",
-        dataType: 'json',
-        success: function (data) {
-  
-            $('#productForm').trigger("reset");
-            $('#ajaxModel').modal('hide');
-            table.draw();
-       
-        },
-        error: function (data) {
-            console.log('Error:', data);
-            $('#saveBtn').html('Save Changes');
-        }
     });
-  });
-  
-  $('body').on('click', '.delete', function () {
-      var id = $(this).data("id");
-      confirm("Are You sure want to delete !");
 
-      $.ajax({
-          type: "DELETE",
-          url: 'languages-ajax/' + id,
-          success: function (data) {
-              table.draw();
-          },
-          error: function (data) {
-              console.log('Error:', data);
-          }
-      });
-  });
+    var table = $('.data-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('languages.index') }}",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'code', name: 'code'},
+            {data: 'name', name: 'name'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+
+    $('#add').click(function () {
+        $('#modelHeading').html("Add");
+        $('#addForm').trigger("reset");
+        $('#addModal').modal('show');
+    });
+ 
+    $('body').on('click', '.edit', function () {
+        var id = $(this).data('id');
+
+        $.get('languages-ajax/' + id + '/edit', function (data) {
+            $('#id').val(data.id);
+            $('#editCode').val(data.code);
+            $('#editName').val(data.name);
+            $('#editModal').modal('show');
+        })
+    });
+
+    $('#addButton').click(function (e) {
+        e.preventDefault();
+        $(this).html('Sending..');
+
+        $.ajax({
+            data: $('#addForm').serialize(),
+            url: $('#url').val(),
+            type: "POST",
+            dataType: 'json',
+            success: function (data) {
+                $('#addForm').trigger("reset");
+                $('#addModal').modal('hide');
+                table.draw();
+            },
+            error: function (data) {
+                console.log('Error:', data);
+                // $('#saveBtn').html('Save Changes');
+            }
+        });
+    });
+  
+    $('#editButton').click(function (e) {
+        e.preventDefault();
+        $(this).html('Sending..');
+
+        $.ajax({
+            data: $('#editForm').serialize(),
+            type: "PATCH",
+            dataType: 'json',
+            success: function (data) {
+                $('#editForm').trigger("reset");
+                $('#editModal').modal('hide');
+                table.draw();
+            },
+            error: function (data) {
+                console.log('Error:', data);
+                // $('#saveBtn').html('Save Changes');
+            }
+        });
+    });
+
+    $('body').on('click', '.delete', function () {
+        var id = $(this).data("id");
+        confirm("Are You sure want to delete !");
+
+        $.ajax({
+            type: "DELETE",
+            url: "languages-ajax/" + id,
+            success: function (data) {
+                table.draw();
+            },
+            error: function (data) {
+                console.log('Error:', data);
+            }
+        });
+    });
 });
 </script>
 

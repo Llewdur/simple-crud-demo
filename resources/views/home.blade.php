@@ -8,6 +8,8 @@
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
                 <div class="card-body">
+                    <a href='{!! url('/interests'); !!}'>{{ __('Manage Interests') }}</a>
+                    <br>
                     <a href='{!! url('/languages'); !!}'>{{ __('Manage Languages') }}</a>
                 </div>
             </div>

@@ -6,6 +6,7 @@
             </div>
             <div class="modal-body">
                 <form id="addForm" name="addForm" class="form-horizontal">
+                    <div id="addErrorMessages" class="addErrorMessages btn btn-danger"></div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Code</label>
                         <div class="col-sm-12">

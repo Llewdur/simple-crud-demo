@@ -1,4 +1,3 @@
-
 <div class="modal fade" id="editModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -8,7 +7,7 @@
             <div class="modal-body">
                 <form id="editForm" method="POST" name="editForm" class="form-horizontal">
                    <input type="hidden" name="id" id="id">
-                   <div id="errorMessages" class="errorMessages btn btn-danger"></div>
+                   <div id="editErrorMessages" class="editErrorMessages btn btn-danger">ss</div>
                    <div class="form-group">
                         <label class="col-sm-2 control-label">Code</label>
                         <div class="col-sm-12">
@@ -28,4 +27,4 @@
             </div>
         </div>
     </div>
-</div> 
+</div>

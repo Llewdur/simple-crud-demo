@@ -1,14 +1,18 @@
 $(function () {
+    var route = window.location.pathname + '/';
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
 
+    $('#errorMessages').hide();
+
     var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "languages-ajax/",
+        ajax: route,
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'code', name: 'code'},
@@ -21,13 +25,14 @@ $(function () {
         $('#modelHeading').html("Add");
         $('#addForm').trigger("reset");
         $('#addModal').modal('show');
+        $('#addErrorMessages').hide();
     });
  
     $('body').on('click', '.edit', function () {
         var id = $(this).data('id');
 
-        $.get('languages-ajax/' + id + '/edit', function (data) {
-            $('#errorMessages').hide();
+        $.get(route + id + '/edit', function (data) {
+            $('#editErrorMessages').hide();
             $('#id').val(data.id);
             $('#editCode').val(data.code);
             $('#editName').val(data.name);
@@ -41,16 +46,26 @@ $(function () {
 
         $.ajax({
             data: $('#addForm').serialize(),
-            url: 'languages-ajax/',
+            url: route,
             type: "POST",
             dataType: 'json',
             success: function (data) {
+                $('#addErrorMessages').hide();
                 $('#addForm').trigger("reset");
                 $('#addModal').modal('hide');
                 table.draw();
             },
-            error: function (data) {
-                console.log('Error:', data);
+            error: function (xhr, errorType, exception) {
+                $('#addErrorMessages').show();
+                $('#addErrorMessages').html('');
+                $('#addButton').html('Retry Add');
+
+                var data = xhr.responseText;
+                var jsonResponse = JSON.parse(data);
+
+                Object.values(jsonResponse["errors"]).forEach(val => {
+                    $('#addErrorMessages').append(val + '<br/>');
+                });
             }
         });
     });
@@ -61,7 +76,7 @@ $(function () {
 
         $.ajax({
             data: $('#editForm').serialize(),
-            url: 'languages-ajax/' + $('#id').val(),
+            url: route + $('#id').val(),
             type: "PATCH",
             dataType: 'json',
             success: function (data) {
@@ -70,14 +85,15 @@ $(function () {
                 table.draw();
             },
             error: function (xhr, errorType, exception) {
-                $('#errorMessages').show();
-                $('#errorMessages').html('');
+                $('#editErrorMessages').show();
+                $('#editErrorMessages').html('');
+                $('#editButton').html('Retry Edit');
 
                 var data = xhr.responseText;
                 var jsonResponse = JSON.parse(data);
 
                 Object.values(jsonResponse["errors"]).forEach(val => {
-                    $('#errorMessages').append(val + '<br/>');
+                    $('#editErrorMessages').append(val + '<br/>');
                 });
             }
         });
@@ -89,7 +105,7 @@ $(function () {
 
         $.ajax({
             type: "DELETE",
-            url: "languages-ajax/" + id,
+            url: route + id,
             success: function (data) {
                 table.draw();
             },

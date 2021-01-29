@@ -13,8 +13,8 @@ class ModifyUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('surname')->after('name');
-            $table->string('idnumber')->unique()->after('surname');
-            $table->string('mobile')->after('idnumber');
+            $table->string('idnumber', 11)->unique()->after('surname');
+            $table->string('mobile', 11)->after('idnumber');    
             $table->date('dob')->after('mobile');
             $table->tinyInteger('language_id')->after('dob')->unsigned();
 

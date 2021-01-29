@@ -14,4 +14,5 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('/interests', App\Http\Controllers\InterestController::class);
     Route::resource('/languages', App\Http\Controllers\LanguageController::class);
+    Route::resource('/users', App\Http\Controllers\UserController::class);
 });

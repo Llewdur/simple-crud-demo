@@ -11,6 +11,8 @@
                     <a href='{!! url('/interests'); !!}'>{{ __('Manage Interests') }}</a>
                     <br>
                     <a href='{!! url('/languages'); !!}'>{{ __('Manage Languages') }}</a>
+                    <br>
+                    <a href='{!! url('/users'); !!}'>{{ __('Manage Users') }}</a>
                 </div>
             </div>
         </div>

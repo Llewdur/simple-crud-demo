@@ -1,6 +1,13 @@
 $(function () {
-
     var route = window.location.pathname + '/';
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $('#errorMessages').hide();
 
     var table = $('.data-table').DataTable({
         processing: true,
@@ -9,6 +16,9 @@ $(function () {
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'name', name: 'name'},
+            {data: 'surname', name: 'surname'},
+            {data: 'email', name: 'email'},
+            {data: 'mobile', name: 'mobile'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -19,7 +29,7 @@ $(function () {
         $('#addModal').modal('show');
         $('#addErrorMessages').hide();
     });
- 
+
     $('body').on('click', '.edit', function () {
         var id = $(this).data('id');
 
@@ -27,6 +37,11 @@ $(function () {
             $('#editErrorMessages').hide();
             $('#id').val(data.id);
             $('#editName').val(data.name);
+            $('#editSurname').val(data.surname);
+            $('#editIdnumber').val(data.idnumber);
+            $('#editMobile').val(data.mobile);
+            $('#editEmail').val(data.email);
+            $('#editDob').val(data.dob);
             $('#editModal').modal('show');
         })
     });
@@ -90,4 +105,19 @@ $(function () {
         });
     });
 
+    $('body').on('click', '.delete', function () {
+        var id = $(this).data("id");
+        confirm("Are You sure want to delete !");
+
+        $.ajax({
+            type: "DELETE",
+            url: route + id,
+            success: function (data) {
+                table.draw();
+            },
+            error: function (data) {
+                console.log('Error:', data);
+            }
+        });
+    });
 });

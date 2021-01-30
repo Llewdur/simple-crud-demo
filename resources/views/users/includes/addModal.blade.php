@@ -22,13 +22,13 @@
                     <div class="form-group">
                         <label for="idnumber" class="col-sm-2 control-label text-nowrap">South African Id Number</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="idnumber" name="idnumber" placeholder="Enter ID" value="" maxlength="11" required="required">
+                            <input type="text" class="form-control" id="idnumber" name="idnumber" placeholder="Enter ID i.e. 800101 1234 567" value="" maxlength="15" required="required">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="mobile" class="col-sm-2 control-label text-nowrap">Mobile Number</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Enter Mobile" value="" maxlength="11" required="required">
+                            <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Enter Mobile i.e. 27 83 445 2207" value="" maxlength="14" required="required">
                         </div>
                     </div>
                     <div class="form-group">

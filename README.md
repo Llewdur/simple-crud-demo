@@ -19,6 +19,8 @@ No email styling done as we dont have a CI
 
 I did not cater for deleting a language which is "in use"
 
+The multi select dropdown could be much better styled using a bootstrap library
+
 I deliberately did not add RefreshDatabase to the tests
 
 I did not cater for user add/edit when no languages/interests are available for selection

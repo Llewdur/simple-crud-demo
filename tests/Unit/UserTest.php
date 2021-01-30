@@ -119,9 +119,9 @@ class UserTest extends TestCase
             'dob' => $this->faker->date,
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
-            'idnumber' => Str::random(11),
+            'idnumber' => $this->faker->unique()->numerify('#############'),
             'language_id' => Language::inRandomOrder()->firstOrFail()->id,
-            'mobile' => Str::random(11),
+            'mobile' => $this->faker->numerify('###########'),
             'name' => $this->faker->firstName,
             'surname' => $this->faker->lastName,
         ];

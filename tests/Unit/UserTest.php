@@ -20,14 +20,14 @@ class UserTest extends TestCase
     {
         $dataArray = $this->getDataArray();
 
-        User::factory()->make($dataArray);
+        User::factory()->create($dataArray);
 
         $this->get($this->endpoint)
             ->assertSuccessful()
             ->assertSee('csrf-token');
     }
 
-    public function testStore1()
+    public function testStore()
     {
         $dataArray = $this->getDataArray();
 
@@ -67,7 +67,9 @@ class UserTest extends TestCase
     {
         $dataArray = $this->getDataArray();
 
-        $this->putJson("{$this->endpoint}/1", $dataArray)->assertSuccessful();
+        $user_id = User::where('id', '!=', 1)->inRandomOrder()->firstOrFail()->id;
+
+        $this->putJson("{$this->endpoint}/${user_id}", $dataArray)->assertSuccessful();
 
         $this->assertDatabaseHas($this->endpoint, $dataArray);
     }
@@ -86,7 +88,7 @@ class UserTest extends TestCase
 
     public function testDelete()
     {
-        $user_id = User::whereDoesntHave('userInterests')->inRandomOrder()->firstOrFail()->id;
+        $user_id = User::where('id', '!=', 1)->inRandomOrder()->firstOrFail()->id;
 
         $this->delete("{$this->endpoint}/${user_id}")->assertSuccessful();
 
@@ -99,8 +101,8 @@ class UserTest extends TestCase
     {
         $this->get("{$this->endpoint}/datatable")
             ->assertSuccessful()
-            ->assertSee('recordsTotal')
-            ->assertSee('DT_RowIndex');
+            ->assertSee('data')
+            ->assertSee('recordsTotal');
     }
 
     private function getDataArray(): array

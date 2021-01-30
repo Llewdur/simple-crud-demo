@@ -100,7 +100,7 @@ class InterestTest extends TestCase
     private function getDataArray(): array
     {
         return [
-            'name' => $this->getRandomString(),
+            'name' => $this->getRandomString(25),
         ];
     }
 }

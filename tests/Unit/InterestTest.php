@@ -2,23 +2,23 @@
 
 namespace Tests\Unit;
 
-use App\Models\Language;
+use App\Models\Interest;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
-class LanguageTest extends TestCase
+class InterestTest extends TestCase
 {
     use WithoutMiddleware;
     use WithFaker;
 
-    protected $endpoint = 'languages';
+    protected $endpoint = 'interests';
 
     public function testIndex()
     {
         $dataArray = $this->getDataArray();
 
-        Language::factory()->make($dataArray);
+        Interest::factory()->make($dataArray);
 
         $this->get($this->endpoint)
             ->assertSuccessful()
@@ -29,7 +29,7 @@ class LanguageTest extends TestCase
     {
         $dataArray = $this->getDataArray();
 
-        Language::where('code', $dataArray['code'])->orWhere('name', $dataArray['name'])->forceDelete();
+        Interest::where('name', $dataArray['name'])->forceDelete();
 
         $this->postJson($this->endpoint, $dataArray)->assertSuccessful();
 
@@ -38,11 +38,10 @@ class LanguageTest extends TestCase
 
     public function testStoreDuplicateFails()
     {
-        $language = Language::inRandomOrder()->first();
+        $interest = Interest::inRandomOrder()->first();
 
         $dataArray = [
-            'code' => $language->code,
-            'name' => $language->name,
+            'name' => $interest->name,
         ];
 
         $this->postJson($this->endpoint, $dataArray)->assertStatus(422);
@@ -50,12 +49,12 @@ class LanguageTest extends TestCase
 
     public function testShow()
     {
-        $language_id = Language::inRandomOrder()->firstOrFail()->id;
+        $interest_id = Interest::inRandomOrder()->firstOrFail()->id;
 
-        $this->get("{$this->endpoint}/${language_id}")
+        $this->get("{$this->endpoint}/${interest_id}")
             ->assertSuccessful()
             ->assertJsonStructure([
-                'data' => Language::RESPONSE_ARRAY,
+                'data' => Interest::RESPONSE_ARRAY,
             ]);
     }
 
@@ -70,11 +69,10 @@ class LanguageTest extends TestCase
 
     public function testUpdateDuplicateFails()
     {
-        $language = Language::inRandomOrder()->first();
+        $interest = Interest::inRandomOrder()->first();
 
         $dataArray = [
-            'code' => $language->code,
-            'name' => $language->name,
+            'name' => $interest->name,
         ];
 
         $this->putJson("{$this->endpoint}/1", $dataArray)->assertStatus(422);
@@ -82,12 +80,12 @@ class LanguageTest extends TestCase
 
     public function testDelete()
     {
-        $language_id = Language::whereDoesntHave('user')->inRandomOrder()->firstOrFail()->id;
+        $interest_id = Interest::whereDoesntHave('user_interest')->inRandomOrder()->firstOrFail()->id;
 
-        $this->delete("{$this->endpoint}/${language_id}") ->assertSuccessful();
+        $this->delete("{$this->endpoint}/${interest_id}") ->assertSuccessful();
 
         $this->assertDatabaseMissing($this->endpoint, [
-            'id' => $language_id,
+            'id' => $interest_id,
         ]);
     }
 
@@ -102,7 +100,6 @@ class LanguageTest extends TestCase
     private function getDataArray(): array
     {
         return [
-            'code' => $this->getRandomString(10),
             'name' => $this->getRandomString(),
         ];
     }

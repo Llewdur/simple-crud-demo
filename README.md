@@ -3,9 +3,7 @@
 A simple Laravel CRUD demonstration
 
 ## To run
-sail artisan migrate:fresh --seed
-
-sail artisan test
+sail artisan migrate:fresh --seed && sail artisan test
 
 ## Notes
 

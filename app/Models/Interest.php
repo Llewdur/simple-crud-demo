@@ -9,6 +9,11 @@ class Interest extends Model
 {
     use HasFactory;
 
+    public const RESPONSE_ARRAY = [
+        'id',
+        'name',
+    ];
+
     public static array $rules = [
         'name' => 'required|string|min:3|max:255|unique:interests',
     ];

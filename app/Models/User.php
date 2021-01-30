@@ -19,7 +19,7 @@ class User extends Authenticatable
 
     public const TESTS_SURNAME = 'du Randt';
 
-    public const TESTS_MOBILE = '083 445 2207';
+    public const TESTS_MOBILE = '0834452207';
 
     protected $fillable = [
         'name',

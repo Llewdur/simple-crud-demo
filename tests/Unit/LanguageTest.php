@@ -18,34 +18,29 @@ class LanguageTest extends TestCase
     {
         $dataArray = $this->getDataArray();
 
-        Language::factory()->create($dataArray);
+        Language::factory()->make($dataArray);
 
         $this->get($this->endpoint)
             ->assertSuccessful()
-            ->assertJsonStructure([
-                'data' => [
-                    '*' => Language::RESPONSE_ARRAY,
-                ],
-            ]);
+            ->assertSee('csrf-token');
     }
 
     public function testStore()
     {
         $dataArray = $this->getDataArray();
 
+        Language::where('code', $dataArray['code'])->orWhere('name', $dataArray['name'])->forceDelete();
+
         $this->postJson($this->endpoint, $dataArray)->assertSuccessful();
+
         $this->assertDatabaseHas($this->endpoint, $dataArray);
     }
 
     public function testShow()
     {
-        $dataArray = [
-            'id' => 1,
-        ] + $this->getDataArray();
+        $language_id = Language::inRandomOrder()->firstOrFail()->id;
 
-        Language::factory()->create($dataArray);
-
-        $this->get("{$this->endpoint}/1")
+        $this->get("{$this->endpoint}/${language_id}")
             ->assertSuccessful()
             ->assertJsonStructure([
                 'data' => Language::RESPONSE_ARRAY,
@@ -57,15 +52,27 @@ class LanguageTest extends TestCase
         $dataArray = $this->getDataArray();
 
         $this->putJson("{$this->endpoint}/1", $dataArray)->assertSuccessful();
+
         $this->assertDatabaseHas($this->endpoint, $dataArray);
     }
 
     public function testDelete()
     {
-        $this->delete("{$this->endpoint}/1")->assertSuccessful();
+        $language_id = Language::whereDoesntHave('user')->inRandomOrder()->firstOrFail()->id;
+
+        $this->delete("{$this->endpoint}/${language_id}") ->assertSuccessful();
+
         $this->assertDatabaseMissing($this->endpoint, [
-            'id' => 1,
+            'id' => $language_id,
         ]);
+    }
+
+    public function testDatatable()
+    {
+        $this->get("{$this->endpoint}/datatable")
+            ->assertSuccessful()
+            ->assertSee('recordsTotal')
+            ->assertSee('DT_RowIndex');
     }
 
     private function getDataArray(): array

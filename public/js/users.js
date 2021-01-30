@@ -24,6 +24,7 @@ $("body").on("click", ".edit", function () {
         $("#editMobile").val(data.mobile);
         $("#editEmail").val(data.email);
         $("#editDob").val(data.dob);
+        $('#editLanguage_id option[value="' + data.language_id + '"]').attr('selected', true);
         $("#editModal").modal("show");
     })
 });

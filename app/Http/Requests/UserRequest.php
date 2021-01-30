@@ -18,7 +18,7 @@ class UserRequest extends FormRequest
             'email' => 'required|email|min:3|max:255|unique:users,email,' . $this->id,
             'idnumber' => 'required|string|min:3|max:11|unique:users,idnumber,' . $this->id,
             'language_id' => 'required|integer|exists:languages,id',
-            'mobile' => 'required|string|min:11|max:11',
+            'mobile' => 'required|string|min:9|max:11',
             'name' => 'required|string|min:3|max:255',
             'surname' => 'required|string|min:3|max:255',
         ];

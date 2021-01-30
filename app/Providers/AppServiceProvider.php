@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Language;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 
@@ -13,12 +14,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $currentPath = Request::path();
+        $languages = Language::orderBy('name')->get();
 
-        $values = explode('/', $currentPath);
-
-        $route = $values[0];
-
-        view()->share('route', $route);
+        view()->share('languages', $languages);
     }
 }

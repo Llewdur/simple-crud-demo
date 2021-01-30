@@ -17,37 +17,39 @@
                     <div class="form-group">
                         <label for="surname" class="col-sm-2 control-label">Surname</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="editSurname" name="editSurname" placeholder="Enter Surname" value="" maxlength="255" required="required">
+                            <input type="text" class="form-control" id="editSurname" name="surname" placeholder="Enter Surname" value="" maxlength="255" required="required">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="idnumber" class="col-sm-2 control-label text-nowrap">South African Id Number</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="editIdnumber" name="editIdnumber" placeholder="Enter ID" value="" maxlength="11" required="required">
+                            <input type="text" class="form-control" id="editIdnumber" name="idnumber" placeholder="Enter ID" value="" maxlength="11" required="required">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="mobile" class="col-sm-2 control-label text-nowrap">Mobile Number</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="editMobile" name="editMobile" placeholder="Enter Mobile" value="" maxlength="11" required="required">
+                            <input type="text" class="form-control" id="editMobile" name="mobile" placeholder="Enter Mobile" value="" maxlength="11" required="required">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="email" class="col-sm-2 control-label text-nowrap">Email Address</label>
                         <div class="col-sm-12">
-                            <input type="email" class="form-control" id="editEmail" name="editEmail" placeholder="Enter Email" value="" maxlength="255" required="required">
+                            <input type="email" class="form-control" id="editEmail" name="email" placeholder="Enter Email" value="" maxlength="255" required="required">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="dob" class="col-sm-2 control-label text-nowrap">Birth Date</label>
                         <div class="col-sm-12">
-                            <input type="date" class="form-control" id="editDob" name="editDob" placeholder="Enter Birth Date" value="" required="required">
+                            <input type="date" class="form-control" id="editDob" name="dob" placeholder="Enter Birth Date" value="" required="required">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="language_id" class="col-sm-2 control-label">Language</label>
                         <div class="col-sm-12">
-                            <input type="date" class="form-control" id="editLanguage_id" name="editLanguage_id" placeholder="language_id" value="" required="required">
+                            <select id="editLanguage_id" name="language_id" class="form-control">
+                                @include('includes/languageDropDown')
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">

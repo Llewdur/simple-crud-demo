@@ -13,6 +13,8 @@ $("#add").click(function () {
     $("#addForm").trigger("reset");
     $("#addModal").modal("show");
     $("#addErrorMessages").hide();
+
+    $('#addInterest_id').prop('selectedIndex',-1);
 });
 
 $("#addButton").click(function (e) {

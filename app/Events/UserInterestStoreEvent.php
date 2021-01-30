@@ -7,8 +7,9 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Request;
 
-class UserStoreEvent
+class UserInterestStoreEvent
 {
     use Dispatchable;
     use InteractsWithSockets;
@@ -16,7 +17,7 @@ class UserStoreEvent
 
     public User $user;
 
-    public function __construct(User $user)
+    public function __construct(Request $request, User $user)
     {
         $this->user = $user;
     }

@@ -14,7 +14,7 @@ class TestCommand extends Command
 
     public function handle()
     {
-        if(! $user = User::where('email', 'support@zekini.com')->first()){
+        if (! $user = User::where('email', 'support@zekini.com')->first()) {
             $user = User::where('id', '!=', 1)->inRandomOrder()->firstOrFail();
 
             $user->update([

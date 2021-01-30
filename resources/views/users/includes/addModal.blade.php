@@ -44,16 +44,18 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="language_id" class="col-sm-2 control-label">Language</label>
+                    <label for="language_id" class="col-sm-2 control-label">Language</label>
                         <div class="col-sm-12">
-                            <input type="date" class="form-control" id="language_id" name="language_id" placeholder="language_id" value="" required="required">
+                            <select id="editLanguage_id" name="language_id" class="form-control">
+                                @include('includes/languagesDropDown')
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="language_id" class="col-sm-2 control-label">Interests</label>
-                        <div class="col-sm-12">
-                            <input type="date" class="form-control" id="interest_id" name="interest_id" placeholder="interest_id" value="" required="required">
-                        </div>
+                        <label for="interest_id" class="col-sm-2 control-label">Interests</label>
+                        <select id="editInterest_id" name="interest_id[]" class="form-control" multiple>
+                            @include('includes/interestsDropDown')
+                        </select>
                     </div>
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-primary" id="addButton">Add</button>

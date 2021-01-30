@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UserStoreEvent;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\DatatableCollection;
 use App\Http\Resources\UserResource;
 use App\Jobs\UserStoreJob;
 use App\Models\User;
+use App\Models\UserInterest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
@@ -24,10 +24,9 @@ class UserController extends Controller
         $request['password'] = Hash::make($request['email']);
         $user = User::create($request->all());
 
-        UserStoreJob::dispatch($user)->onQueue('default');
-        // UserStoreJob::dispatchNow($user);
+        self::storeUserInterest($request, $user);
 
-        // event(new UserStoreEvent($user));
+        UserStoreJob::dispatch($user)->onQueue('default');
 
         return new UserResource($user);
     }
@@ -41,7 +40,7 @@ class UserController extends Controller
 
     public function edit(int $id): JsonResponse
     {
-        $user = User::findOrFail($id);
+        $user = User::with('userInterests')->findOrFail($id);
 
         return response()->json($user);
     }
@@ -50,6 +49,8 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->update($request->all());
+
+        self::storeUserInterest($request, $user);
 
         return new UserResource($user);
     }
@@ -67,5 +68,21 @@ class UserController extends Controller
         $users = User::latest()->get();
 
         return new DatatableCollection($users);
+    }
+
+    private static function storeUserInterest(UserRequest $request, User $user): void
+    {
+        UserInterest::where('user_id', $user->id)->forceDelete();
+
+        if (blank($request->interest_id)) {
+            return;
+        }
+
+        foreach ($request->interest_id as $interest_id) {
+            UserInterest::create([
+                'user_id' => $user->id,
+                'interest_id' => $interest_id,
+            ]);
+        }
     }
 }

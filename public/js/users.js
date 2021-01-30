@@ -25,6 +25,13 @@ $("body").on("click", ".edit", function () {
         $("#editEmail").val(data.email);
         $("#editDob").val(data.dob);
         $('#editLanguage_id option[value="' + data.language_id + '"]').attr('selected', true);
+
+        $('#editInterest_id').prop('selectedIndex',-1);
+
+        $.each(data.user_interests, function(i,e){
+            $('#editInterest_id option[value="' + e.id + '"]').attr('selected', true);
+        });
+
         $("#editModal").modal("show");
     })
 });

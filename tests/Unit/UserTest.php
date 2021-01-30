@@ -37,7 +37,7 @@ class UserTest extends TestCase
 
         $userCount = User::where('email', $dataArray['email'])->get()->count();
 
-        $this->assertEquals(1, $userCount);
+        $this->assertSame(1, $userCount);
     }
 
     public function testStoreDuplicateFails()

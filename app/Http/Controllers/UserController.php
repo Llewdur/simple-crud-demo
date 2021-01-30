@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\View\View;
-use Illuminate\Http\JsonResponse;
 use App\Http\Requests\UserRequest;
-use App\Http\Resources\UserResource;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\DatatableCollection;
+use App\Http\Resources\UserResource;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {

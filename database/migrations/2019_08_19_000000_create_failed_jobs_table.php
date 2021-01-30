@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateFailedJobsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up()
     {
         Schema::create('failed_jobs', function (Blueprint $table) {
@@ -22,9 +19,6 @@ class CreateFailedJobsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down()
     {
         Schema::dropIfExists('failed_jobs');

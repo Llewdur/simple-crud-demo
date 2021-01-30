@@ -103,7 +103,7 @@ class LanguageTest extends TestCase
     {
         return [
             'code' => $this->getRandomString(10),
-            'name' => $this->getRandomString(),
+            'name' => $this->getRandomString(20),
         ];
     }
 }

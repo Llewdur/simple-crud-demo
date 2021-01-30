@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateUserInterestsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up()
     {
         Schema::create('user_interests', function (Blueprint $table) {
@@ -25,9 +22,6 @@ class CreateUserInterestsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down()
     {
         Schema::dropIfExists('user_interests');

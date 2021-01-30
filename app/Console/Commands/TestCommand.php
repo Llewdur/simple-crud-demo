@@ -2,7 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Carbon\Carbon;
+use App\Jobs\UserStoreJob;
+use App\Models\User;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
@@ -13,9 +14,16 @@ class TestCommand extends Command
 
     public function handle()
     {
-        $sendDate = '2021-01-28 07:00';
-        dd(
-            Carbon::createFromFormat('Y-m-d H:i:s', $sendDate)
-        );
+        if(! $user = User::where('email', 'support@zekini.com')->first()){
+            $user = User::where('id', '!=', 1)->inRandomOrder()->firstOrFail();
+
+            $user->update([
+                'email' => 'support@zekini.com',
+            ]);
+        }
+
+        $user = User::inRandomOrder()->firstOrFail();
+
+        UserStoreJob::dispatch($user)->onQueue('default');
     }
 }

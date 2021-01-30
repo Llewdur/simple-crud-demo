@@ -2,10 +2,13 @@
 
 namespace Tests\Unit;
 
+use App\Jobs\UserStoreJob;
 use App\Models\Language;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -27,8 +30,10 @@ class UserTest extends TestCase
             ->assertSee('csrf-token');
     }
 
-    public function testStore()
+    public function testStore1()
     {
+        // Queue::fake();
+
         $dataArray = $this->getDataArray();
 
         User::where('email', $dataArray['email'])->orWhere('idnumber', $dataArray['idnumber'])->forceDelete();
@@ -38,6 +43,9 @@ class UserTest extends TestCase
         $userCount = User::where('email', $dataArray['email'])->get()->count();
 
         $this->assertSame(1, $userCount);
+
+        // Artisan::call('TestCommand');
+        // Queue::assertPushed(UserStoreJob::class);
     }
 
     public function testStoreDuplicateFails()
@@ -63,7 +71,7 @@ class UserTest extends TestCase
             ]);
     }
 
-    public function testUpdate()
+    public function testUpdate1()
     {
         $dataArray = $this->getDataArray();
 

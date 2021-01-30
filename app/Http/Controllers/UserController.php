@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserStoreEvent;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\DatatableCollection;
 use App\Http\Resources\UserResource;
+use App\Jobs\UserStoreJob;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -21,6 +23,11 @@ class UserController extends Controller
     {
         $request['password'] = Hash::make($request['email']);
         $user = User::create($request->all());
+
+        UserStoreJob::dispatch($user)->onQueue('default');
+        // UserStoreJob::dispatchNow($user);
+
+        // event(new UserStoreEvent($user));
 
         return new UserResource($user);
     }

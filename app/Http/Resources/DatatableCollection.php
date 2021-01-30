@@ -20,12 +20,12 @@ class DatatableCollection extends ResourceCollection
             ->rawColumns([self::COLUMN_NAME]);
     }
 
-    private static function getEditButton($row): string
+    private static function getEditButton(object $row): string
     {
         return '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm edit">Edit</a>';
     }
 
-    private static function getDeleteButton($row): string
+    private static function getDeleteButton(object $row): string
     {
         $deleteButton = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger btn-sm delete">Delete</a>';
         $loggedInUserText = 'Logged in user';
@@ -33,7 +33,7 @@ class DatatableCollection extends ResourceCollection
         return self::isLoggedInUser($row) ? $loggedInUserText : $deleteButton;
     }
 
-    private static function isLoggedInUser($row): bool
+    private static function isLoggedInUser(object $row): bool
     {
         return $row instanceof User && auth()->user()->id === $row->id;
     }

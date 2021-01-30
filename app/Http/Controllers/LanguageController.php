@@ -3,39 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LanguageRequest;
-use App\Http\Resources\LanguageCollection;
+use App\Http\Resources\DatatableCollection;
 use App\Http\Resources\LanguageResource;
 use App\Models\Language;
-use DataTables;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class LanguageController extends Controller
 {
-    //: LanguageCollection
-    public function index(Request $request)
+    public function index(): View
     {
-        $data = Language::latest()->get();
-
-        if ($request->ajax()) {
-            return Datatables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm edit">Edit</a>';
-                    $btn .= ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger btn-sm delete">Delete</a>';
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-
-        return view('languages.ajax', compact('data'));
-
-        // return new LanguageCollection(Language::paginate());
-    }
-
-    public function create()
-    {
+        return view('languages.index');
     }
 
     public function store(LanguageRequest $request): LanguageResource
@@ -52,9 +30,10 @@ class LanguageController extends Controller
         return new LanguageResource($language);
     }
 
-    public function edit(int $id)
+    public function edit(int $id): JsonResponse
     {
         $language = Language::findOrFail($id);
+
         return response()->json($language);
     }
 
@@ -72,5 +51,12 @@ class LanguageController extends Controller
         $language->forceDelete();
 
         return response()->json([], 204);
+    }
+
+    public function datatable(): DatatableCollection
+    {
+        $languages = Language::latest()->get();
+
+        return new DatatableCollection($languages);
     }
 }

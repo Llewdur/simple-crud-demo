@@ -1,93 +1,21 @@
-$(function () {
+var table = $(".data-table").DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: route + "datatable",
+    columns: [
+        {data: "DT_RowIndex", name: "DT_RowIndex"},
+        {data: "name", name: "name"},
+        {data: "actions", name: "actions", orderable: false, searchable: false},
+    ]
+});
 
-    var route = window.location.pathname + '/';
+$("body").on("click", ".edit", function () {
+    var id = $(this).data("id");
 
-    var table = $('.data-table').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: route,
-        columns: [
-            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-            {data: 'name', name: 'name'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
-    });
-
-    $('#add').click(function () {
-        $('#modelHeading').html("Add");
-        $('#addForm').trigger("reset");
-        $('#addModal').modal('show');
-        $('#addErrorMessages').hide();
-    });
- 
-    $('body').on('click', '.edit', function () {
-        var id = $(this).data('id');
-
-        $.get(route + id + '/edit', function (data) {
-            $('#editErrorMessages').hide();
-            $('#id').val(data.id);
-            $('#editName').val(data.name);
-            $('#editModal').modal('show');
-        })
-    });
-
-    $('#addButton').click(function (e) {
-        e.preventDefault();
-        $(this).html('Sending..');
-
-        $.ajax({
-            data: $('#addForm').serialize(),
-            url: route,
-            type: "POST",
-            dataType: 'json',
-            success: function (data) {
-                $('#addErrorMessages').hide();
-                $('#addForm').trigger("reset");
-                $('#addModal').modal('hide');
-                table.draw();
-            },
-            error: function (xhr, errorType, exception) {
-                $('#addErrorMessages').show();
-                $('#addErrorMessages').html('');
-                $('#addButton').html('Retry Add');
-
-                var data = xhr.responseText;
-                var jsonResponse = JSON.parse(data);
-
-                Object.values(jsonResponse["errors"]).forEach(val => {
-                    $('#addErrorMessages').append(val + '<br/>');
-                });
-            }
-        });
-    });
-  
-    $('#editButton').click(function (e) {
-        e.preventDefault();
-        $(this).html('Sending..');
-
-        $.ajax({
-            data: $('#editForm').serialize(),
-            url: route + $('#id').val(),
-            type: "PATCH",
-            dataType: 'json',
-            success: function (data) {
-                $('#editForm').trigger("reset");
-                $('#editModal').modal('hide');
-                table.draw();
-            },
-            error: function (xhr, errorType, exception) {
-                $('#editErrorMessages').show();
-                $('#editErrorMessages').html('');
-                $('#editButton').html('Retry Edit');
-
-                var data = xhr.responseText;
-                var jsonResponse = JSON.parse(data);
-
-                Object.values(jsonResponse["errors"]).forEach(val => {
-                    $('#editErrorMessages').append(val + '<br/>');
-                });
-            }
-        });
-    });
-
+    $.get(route + id + "/edit", function (data) {
+        $("#editErrorMessages").hide();
+        $("#id").val(data.id);
+        $("#editName").val(data.name);
+        $("#editModal").modal("show");
+    })
 });

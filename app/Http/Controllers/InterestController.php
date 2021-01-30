@@ -2,39 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Interest;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use App\Http\Requests\InterestRequest;
+use App\Http\Resources\DatatableCollection;
 use App\Http\Resources\InterestResource;
-use DataTables;
+use App\Models\Interest;
+use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
 
 class InterestController extends Controller
 {
-    //: InterestCollection
-    public function index(Request $request)
+    public function index(): View
     {
-        $data = Interest::latest()->get();
-
-        if ($request->ajax()) {
-            return Datatables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm edit">Edit</a>';
-                    $btn .= ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger btn-sm delete">Delete</a>';
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-
-        return view('interests.ajax', compact('data'));
-
-        // return new InterestCollection(Interest::paginate());
-    }
-
-    public function create()
-    {
+        return view('interests.index');
     }
 
     public function store(InterestRequest $request): InterestResource
@@ -51,9 +30,10 @@ class InterestController extends Controller
         return new InterestResource($interest);
     }
 
-    public function edit(int $id)
+    public function edit(int $id): JsonResponse
     {
         $interest = Interest::findOrFail($id);
+
         return response()->json($interest);
     }
 
@@ -71,5 +51,12 @@ class InterestController extends Controller
         $interest->forceDelete();
 
         return response()->json([], 204);
+    }
+
+    public function datatable(): DatatableCollection
+    {
+        $interests = Interest::latest()->get();
+
+        return new DatatableCollection($interests);
     }
 }

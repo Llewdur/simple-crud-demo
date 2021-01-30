@@ -3,39 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
-use App\Http\Resources\UserCollection;
+use App\Http\Resources\DatatableCollection;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use DataTables;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    //: UserCollection
-    public function index(Request $request)
+    public function index(): View
     {
-        $data = User::latest()->get();
-
-        if ($request->ajax()) {
-            return Datatables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm edit">Edit</a>';
-                    $btn .= ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-danger btn-sm delete">Delete</a>';
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-
-        return view('users.ajax', compact('data'));
-
-        // return new UserCollection(User::paginate());
-    }
-
-    public function create()
-    {
+        return view('users.index');
     }
 
     public function store(UserRequest $request): UserResource
@@ -52,9 +30,10 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    public function edit(int $id)
+    public function edit(int $id): JsonResponse
     {
         $user = User::findOrFail($id);
+
         return response()->json($user);
     }
 
@@ -72,5 +51,12 @@ class UserController extends Controller
         $user->forceDelete();
 
         return response()->json([], 204);
+    }
+
+    public function datatable(): DatatableCollection
+    {
+        $users = User::latest()->get();
+
+        return new DatatableCollection($users);
     }
 }

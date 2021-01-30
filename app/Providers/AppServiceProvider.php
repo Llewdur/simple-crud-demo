@@ -16,9 +16,9 @@ class AppServiceProvider extends ServiceProvider
         $currentPath = Request::path();
 
         $values = explode('/', $currentPath);
-    
+
         $route = $values[0];
-    
+
         view()->share('route', $route);
-        }
+    }
 }

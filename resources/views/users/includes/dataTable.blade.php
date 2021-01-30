@@ -9,7 +9,7 @@
                 <th>Surname</th>
                 <th>Email</th>
                 <th>Mobile</th>
-                <th>Action</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>

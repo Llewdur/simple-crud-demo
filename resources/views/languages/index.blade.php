@@ -7,5 +7,6 @@
 @endsection
 
 @section('footer-scripts')
+    <script type="text/javascript" src="js/generic.js"></script>
     <script type="text/javascript" src="js/languages.js"></script>
 @endsection

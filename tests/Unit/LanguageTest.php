@@ -12,7 +12,7 @@ class LanguageTest extends TestCase
     use WithoutMiddleware;
     use WithFaker;
 
-    protected $table = 'languages';
+    protected $endpoint = 'languages';
 
     public function testIndex()
     {
@@ -20,7 +20,7 @@ class LanguageTest extends TestCase
 
         Language::factory()->create($dataArray);
 
-        $this->get($this->table)
+        $this->get($this->endpoint)
             ->assertSuccessful()
             ->assertJsonStructure([
                 'data' => [
@@ -33,8 +33,8 @@ class LanguageTest extends TestCase
     {
         $dataArray = $this->getDataArray();
 
-        $this->postJson($this->table, $dataArray)->assertSuccessful();
-        $this->assertDatabaseHas($this->table, $dataArray);
+        $this->postJson($this->endpoint, $dataArray)->assertSuccessful();
+        $this->assertDatabaseHas($this->endpoint, $dataArray);
     }
 
     public function testShow()
@@ -45,7 +45,7 @@ class LanguageTest extends TestCase
 
         Language::factory()->create($dataArray);
 
-        $this->get("{$this->table}/1")
+        $this->get("{$this->endpoint}/1")
             ->assertSuccessful()
             ->assertJsonStructure([
                 'data' => Language::RESPONSE_ARRAY,
@@ -56,14 +56,14 @@ class LanguageTest extends TestCase
     {
         $dataArray = $this->getDataArray();
 
-        $this->putJson("{$this->table}/1", $dataArray)->assertSuccessful();
-        $this->assertDatabaseHas($this->table, $dataArray);
+        $this->putJson("{$this->endpoint}/1", $dataArray)->assertSuccessful();
+        $this->assertDatabaseHas($this->endpoint, $dataArray);
     }
 
     public function testDelete()
     {
-        $this->delete("{$this->table}/1")->assertSuccessful();
-        $this->assertDatabaseMissing($this->table, [
+        $this->delete("{$this->endpoint}/1")->assertSuccessful();
+        $this->assertDatabaseMissing($this->endpoint, [
             'id' => 1,
         ]);
     }

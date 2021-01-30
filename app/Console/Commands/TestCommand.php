@@ -7,8 +7,8 @@ use Illuminate\Console\Command;
 
 class TestCommand extends Command
 {
-
     protected $signature = 'TestCommand';
+
     protected $description = 'For quick testing of methods';
 
     public function handle()

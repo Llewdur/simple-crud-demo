@@ -16,7 +16,7 @@
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">Name</label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="" maxlength="50" required="required">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="" maxlength="255" required="required">
                         </div>
                     </div>
                     <div class="col-sm-offset-2 col-sm-10">

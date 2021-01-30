@@ -6,7 +6,7 @@
             <tr>
                 <th>#</th>
                 <th>Name</th>
-                <th>Action</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>

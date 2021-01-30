@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
-use App\Models\Language;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Language;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class UserFactory extends Factory
 {
@@ -17,13 +18,13 @@ class UserFactory extends Factory
             'dob' => $this->faker->date,
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
-            'idnumber' => $this->faker->unique()->randomDigit,
+            'idnumber' => Str::random(11),
             'language_id' => Language::inRandomOrder()->firstOrFail()->id,
-            'mobile' => $this->faker->phoneNumber,
+            'mobile' => Str::random(11),
             'name' => $this->faker->firstName,
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-            'surname' => $this->faker->lastName,
+            'password' => Hash::make('12345678'),
             'remember_token' => Str::random(10),
+            'surname' => $this->faker->lastName,
         ];
     }
 }

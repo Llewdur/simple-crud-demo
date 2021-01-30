@@ -11,11 +11,9 @@ class Interest extends Model
 
     public const RESPONSE_ARRAY = [
         'id',
+        'created_at',
         'name',
-    ];
-
-    public static array $rules = [
-        'name' => 'required|string|min:3|max:255|unique:interests',
+        'updated_at',
     ];
 
     protected $fillable = [

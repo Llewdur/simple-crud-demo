@@ -10,8 +10,9 @@ class InterestResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'code' => $this->code,
+            'created_at' => $this->created_at,
             'name' => $this->name,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

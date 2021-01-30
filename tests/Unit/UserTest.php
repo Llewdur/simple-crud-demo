@@ -2,46 +2,51 @@
 
 namespace Tests\Unit;
 
-use App\Models\Interest;
+use App\Models\Language;
+use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
-class InterestTest extends TestCase
+class UserTest extends TestCase
 {
     use WithoutMiddleware;
     use WithFaker;
 
-    protected $endpoint = 'interests';
+    protected $endpoint = 'users';
 
     public function testIndex()
     {
         $dataArray = $this->getDataArray();
 
-        Interest::factory()->make($dataArray);
+        User::factory()->make($dataArray);
 
         $this->get($this->endpoint)
             ->assertSuccessful()
             ->assertSee('csrf-token');
     }
 
-    public function testStore()
+    public function testStore1()
     {
         $dataArray = $this->getDataArray();
 
-        Interest::where('name', $dataArray['name'])->forceDelete();
+        User::where('email', $dataArray['email'])->orWhere('idnumber', $dataArray['idnumber'])->forceDelete();
 
         $this->postJson($this->endpoint, $dataArray)->assertSuccessful();
 
-        $this->assertDatabaseHas($this->endpoint, $dataArray);
+        $userCount = User::where('email', $dataArray['email'])->get()->count();
+
+        $this->assertEquals(1, $userCount);
     }
 
     public function testStoreDuplicateFails()
     {
-        $interest = Interest::inRandomOrder()->first();
+        $user = User::inRandomOrder()->first();
 
         $dataArray = [
-            'name' => $interest->name,
+            'email' => $user->email,
+            'name' => $user->name,
         ];
 
         $this->postJson($this->endpoint, $dataArray)->assertStatus(422);
@@ -49,12 +54,12 @@ class InterestTest extends TestCase
 
     public function testShow()
     {
-        $interest_id = Interest::inRandomOrder()->firstOrFail()->id;
+        $user_id = User::inRandomOrder()->firstOrFail()->id;
 
-        $this->get("{$this->endpoint}/${interest_id}")
+        $this->get("{$this->endpoint}/${user_id}")
             ->assertSuccessful()
             ->assertJsonStructure([
-                'data' => Interest::RESPONSE_ARRAY,
+                'data' => User::RESPONSE_ARRAY,
             ]);
     }
 
@@ -69,10 +74,11 @@ class InterestTest extends TestCase
 
     public function testUpdateDuplicateFails()
     {
-        $interest = Interest::inRandomOrder()->first();
+        $user = User::inRandomOrder()->first();
 
         $dataArray = [
-            'name' => $interest->name,
+            'email' => $user->email,
+            'name' => $user->name,
         ];
 
         $this->putJson("{$this->endpoint}/1", $dataArray)->assertStatus(422);
@@ -80,12 +86,12 @@ class InterestTest extends TestCase
 
     public function testDelete()
     {
-        $interest_id = Interest::whereDoesntHave('user_interest')->inRandomOrder()->firstOrFail()->id;
+        $user_id = User::whereDoesntHave('userInterests')->inRandomOrder()->firstOrFail()->id;
 
-        $this->delete("{$this->endpoint}/${interest_id}")->assertSuccessful();
+        $this->delete("{$this->endpoint}/${user_id}")->assertSuccessful();
 
         $this->assertDatabaseMissing($this->endpoint, [
-            'id' => $interest_id,
+            'id' => $user_id,
         ]);
     }
 
@@ -100,7 +106,14 @@ class InterestTest extends TestCase
     private function getDataArray(): array
     {
         return [
-            'name' => $this->getRandomString(),
+            'dob' => $this->faker->date,
+            'email' => $this->faker->unique()->safeEmail,
+            'email_verified_at' => now(),
+            'idnumber' => Str::random(11),
+            'language_id' => Language::inRandomOrder()->firstOrFail()->id,
+            'mobile' => Str::random(11),
+            'name' => $this->faker->firstName,
+            'surname' => $this->faker->lastName,
         ];
     }
 }

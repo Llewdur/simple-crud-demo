@@ -21,10 +21,29 @@ class User extends Authenticatable
 
     public const TESTS_MOBILE = '0834452207';
 
-    protected $fillable = [
-        'name',
+    public const RESPONSE_ARRAY = [
+        'id',
+        'created_at',
+        'dob',
         'email',
+        'idnumber',
+        'language_id',
+        'mobile',
+        'name',
+        'surname',
+        'updated_at',
+    ];
+
+    protected $fillable = [
+        'dob',
+        'email',
+        'email_verified_at',
+        'idnumber',
+        'language_id',
+        'mobile',
+        'name',
         'password',
+        'surname',
     ];
 
     protected $hidden = [

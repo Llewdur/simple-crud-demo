@@ -14,8 +14,13 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => 'required|string|min:1|max:10|unique:languages,code,' . $this->id,
-            'name' => 'required|string|min:3|max:255|unique:languages,name,' . $this->id,
+            'dob' => 'required|date|date_format:Y-m-d|before:today',
+            'email' => 'required|email|min:3|max:255|unique:users,email,' . $this->id,
+            'idnumber' => 'required|string|min:3|max:11|unique:users,idnumber,' . $this->id,
+            'language_id' => 'required|integer|exists:languages,id',
+            'mobile' => 'required|string|min:11|max:11',
+            'name' => 'required|string|min:3|max:255',
+            'surname' => 'required|string|min:3|max:255',
         ];
     }
 }

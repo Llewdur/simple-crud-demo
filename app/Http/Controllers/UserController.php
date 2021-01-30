@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
-use App\Http\Resources\DatatableCollection;
-use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
+use Illuminate\Http\JsonResponse;
+use App\Http\Requests\UserRequest;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\DatatableCollection;
 
 class UserController extends Controller
 {
@@ -18,6 +19,7 @@ class UserController extends Controller
 
     public function store(UserRequest $request): UserResource
     {
+        $request['password'] = Hash::make($request['email']);
         $user = User::create($request->all());
 
         return new UserResource($user);

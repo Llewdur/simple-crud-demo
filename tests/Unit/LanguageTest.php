@@ -84,7 +84,7 @@ class LanguageTest extends TestCase
     {
         $language_id = Language::whereDoesntHave('user')->inRandomOrder()->firstOrFail()->id;
 
-        $this->delete("{$this->endpoint}/${language_id}") ->assertSuccessful();
+        $this->delete("{$this->endpoint}/${language_id}")->assertSuccessful();
 
         $this->assertDatabaseMissing($this->endpoint, [
             'id' => $language_id,

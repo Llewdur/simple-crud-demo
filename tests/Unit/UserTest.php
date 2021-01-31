@@ -30,10 +30,8 @@ class UserTest extends TestCase
             ->assertSee('csrf-token');
     }
 
-    public function testStore1()
+    public function testStore()
     {
-        // Queue::fake();
-
         $dataArray = $this->getDataArray();
 
         User::where('email', $dataArray['email'])->orWhere('idnumber', $dataArray['idnumber'])->forceDelete();
@@ -43,9 +41,6 @@ class UserTest extends TestCase
         $userCount = User::where('email', $dataArray['email'])->get()->count();
 
         $this->assertSame(1, $userCount);
-
-        // Artisan::call('TestCommand');
-        // Queue::assertPushed(UserStoreJob::class);
     }
 
     public function testStoreDuplicateFails()
@@ -71,7 +66,7 @@ class UserTest extends TestCase
             ]);
     }
 
-    public function testUpdate1()
+    public function testUpdate()
     {
         $dataArray = $this->getDataArray();
 

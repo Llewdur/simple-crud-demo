@@ -7,7 +7,7 @@ Auth::routes([
     'register' => false,
 ]);
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'login']);
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
 Route::group([
     'middleware' => ['auth'],

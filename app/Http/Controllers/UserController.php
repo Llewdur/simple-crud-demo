@@ -6,6 +6,8 @@ use App\Http\Requests\UserRequest;
 use App\Http\Resources\DatatableCollection;
 use App\Http\Resources\UserResource;
 use App\Jobs\UserStoreJob;
+use App\Models\Interest;
+use App\Models\Language;
 use App\Models\User;
 use App\Models\UserInterest;
 use Illuminate\Http\JsonResponse;
@@ -16,7 +18,10 @@ class UserController extends Controller
 {
     public function index(): View
     {
-        return view('users.index');
+        $interests = Interest::orderBy('name')->get();
+        $languages = Language::orderBy('name')->get();
+
+        return view('users.index', compact(['interests', 'languages']));
     }
 
     public function store(UserRequest $request): UserResource

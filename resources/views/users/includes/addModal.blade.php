@@ -46,14 +46,14 @@
                     <div class="form-group">
                     <label for="language_id" class="col-sm-2 control-label">Language</label>
                         <div class="col-sm-12">
-                            <select id="editLanguage_id" name="language_id" class="form-control">
+                            <select id="addLanguage_id" name="language_id" class="form-control">
                                 @include('includes/languagesDropDown')
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="interest_id" class="col-sm-2 control-label">Interests</label>
-                        <select id="editInterest_id" name="interest_id[]" class="form-control" multiple>
+                        <select id="addInterest_id" name="interest_id[]" class="form-control" multiple>
                             @include('includes/interestsDropDown')
                         </select>
                     </div>

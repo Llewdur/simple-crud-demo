@@ -2,14 +2,10 @@
 
 namespace Tests\Unit;
 
-use App\Jobs\UserStoreJob;
 use App\Models\Language;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Queue;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class UserTest extends TestCase

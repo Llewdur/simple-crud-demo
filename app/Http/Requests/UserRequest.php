@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\StringHelper;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserRequest extends FormRequest
@@ -27,8 +28,8 @@ class UserRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'mobile' => str_replace('+', '', str_replace(' ', '', $this->mobile)),
-            'idnumber' => str_replace(' ', '', $this->idnumber),
+            'mobile' => (new StringHelper($this->mobile))->removeCharacter(' ')->removeCharacter('+')->toString(),
+            'idnumber' => (new StringHelper($this->idnumber))->removeCharacter(' ')->toString(),
         ]);
     }
 }

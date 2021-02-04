@@ -2,28 +2,21 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\UserStoreJob;
-use App\Models\User;
+use App\Helpers\StringHelper;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
 {
-    protected $signature = 'TestCommand';
+    protected $signature = 'llew:test';
 
     protected $description = 'For quick testing of methods';
 
     public function handle()
     {
-        if (! $user = User::where('email', 'support@zekini.com')->first()) {
-            $user = User::where('id', '!=', 1)->inRandomOrder()->firstOrFail();
+        $this->idnumber = '690902 5062 080';
 
-            $user->update([
-                'email' => 'support@zekini.com',
-            ]);
-        }
+        $str = (new StringHelper($this->idnumber))->removeCharacter(' ');
 
-        $user = User::inRandomOrder()->firstOrFail();
-
-        UserStoreJob::dispatch($user)->onQueue('default');
+        dd($str);
     }
 }

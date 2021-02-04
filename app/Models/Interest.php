@@ -20,8 +20,8 @@ class Interest extends Model
         'name',
     ];
 
-    public function user_interest()
+    public function users()
     {
-        return $this->hasMany(UserInterest::class);
+        return $this->belongsToMany(User::class);
     }
 }

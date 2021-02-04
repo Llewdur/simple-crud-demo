@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\Interest;
 use App\Models\Language;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -28,7 +29,7 @@ class UserTest extends TestCase
 
     public function testStore()
     {
-        $dataArray = $this->getDataArray();
+        $dataArray = $this->getDataArrayWithOptionalInterest();
 
         User::where('email', $dataArray['email'])->orWhere('idnumber', $dataArray['idnumber'])->forceDelete();
 
@@ -64,13 +65,16 @@ class UserTest extends TestCase
 
     public function testUpdate()
     {
-        $dataArray = $this->getDataArray();
+        $dataArray = $this->getDataArrayWithOptionalInterest();
 
         $user_id = User::where('id', '!=', 1)->inRandomOrder()->firstOrFail()->id;
 
         $this->putJson("{$this->endpoint}/${user_id}", $dataArray)->assertSuccessful();
 
-        $this->assertDatabaseHas($this->endpoint, $dataArray);
+        $dataArrayUser = $dataArray;
+        unset($dataArrayUser['interest_id']);
+
+        $this->assertDatabaseHas($this->endpoint, $dataArrayUser);
     }
 
     public function testUpdateDuplicateFails()
@@ -111,6 +115,21 @@ class UserTest extends TestCase
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
             'idnumber' => $this->faker->unique()->numerify('#############'),
+            'language_id' => Language::inRandomOrder()->firstOrFail()->id,
+            'mobile' => $this->faker->numerify('###########'),
+            'name' => $this->faker->firstName,
+            'surname' => $this->faker->lastName,
+        ];
+    }
+
+    private function getDataArrayWithOptionalInterest(): array
+    {
+        return [
+            'dob' => $this->faker->date,
+            'email' => $this->faker->unique()->safeEmail,
+            'email_verified_at' => now(),
+            'idnumber' => $this->faker->unique()->numerify('#############'),
+            'interest_id' => Interest::pluck('id'),
             'language_id' => Language::inRandomOrder()->firstOrFail()->id,
             'mobile' => $this->faker->numerify('###########'),
             'name' => $this->faker->firstName,

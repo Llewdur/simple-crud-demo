@@ -11,7 +11,7 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         User::factory()
-            ->hasUserInterests(1)
+            ->hasInterests(10)
             ->create([
                 'email' => User::TESTS_EMAIL,
                 'mobile' => User::TESTS_MOBILE,

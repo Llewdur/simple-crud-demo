@@ -28,7 +28,7 @@ $("body").on("click", ".edit", function () {
 
         $('#editInterest_id').prop('selectedIndex',-1);
 
-        $.each(data.user_interests, function(i,e){
+        $.each(data.interests, function(i,e){
             $('#editInterest_id option[value="' + e.id + '"]').attr('selected', true);
         });
 

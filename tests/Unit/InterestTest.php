@@ -80,7 +80,7 @@ class InterestTest extends TestCase
 
     public function testDelete()
     {
-        $interest_id = Interest::whereDoesntHave('user_interest')->inRandomOrder()->firstOrFail()->id;
+        $interest_id = Interest::whereDoesntHave('users')->inRandomOrder()->firstOrFail()->id;
 
         $this->delete("{$this->endpoint}/${interest_id}")->assertSuccessful();
 

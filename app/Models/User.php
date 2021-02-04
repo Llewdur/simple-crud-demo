@@ -60,8 +60,8 @@ class User extends Authenticatable
         return $this->belongsTo(Language::class);
     }
 
-    public function userInterests()
+    public function interests()
     {
-        return $this->hasMany(UserInterest::class);
+        return $this->belongsToMany(Interest::class);
     }
 }
